@@ -22,12 +22,12 @@ module VagrantVbguest
     protected
 
       def packaged_additions?
-        communicate.test("dpkg --list | grep virtualbox-guest")
+        communicate.test("dpkg --list virtualbox-guest* | grep ^ii")
       end
 
       def remove_packaged_additions(opts=nil, &block)
         options = (opts || {}).merge(:error_check => false)
-        command = "apt-get -y -q purge virtualbox-guest-dkms virtualbox-guest-utils virtualbox-guest-x11"
+        command = "apt-get -y -q purge virtualbox-guest-*"
         communicate.sudo(command, options, &block)
       end
 
